@@ -16,6 +16,13 @@ public class Building
     public string Description { get; set; }
 }
 
+public enum BuildingWeight
+{
+    ShortCut = 7,
+    Name = 9,
+    Description = 5,
+}
+
 public class Lock
 {
     public string Id { get; set; }

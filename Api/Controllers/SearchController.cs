@@ -20,8 +20,17 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet()]
-    public Data? Get()
+    public IActionResult Get(string searchString)
     {
-        return _data.Data;
+        return Ok(_data.WeightedTrie.Search(searchString)
+            .Select(s => new
+            {
+                s.Key.ShortCut,
+                s.Key.Name,
+                s.Key.Description,
+                Weight = s.Value
+            })
+            .OrderByDescending(x => x.Weight)
+        );
     }
 }

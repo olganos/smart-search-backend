@@ -2,46 +2,46 @@
 
 public class Data
 {
-    public Building[] buildings { get; set; }
-    public Lock[] locks { get; set; }
-    public Group[] groups { get; set; }
-    public Medium[] media { get; set; }
+    public Building[] Buildings { get; set; }
+    public Lock[] Locks { get; set; }
+    public Group[] Groups { get; set; }
+    public Medium[] Media { get; set; }
 }
 
 public class Building
 {
-    public string id { get; set; }
-    public string shortCut { get; set; }
-    public string name { get; set; }
-    public string description { get; set; }
+    public string Id { get; set; }
+    public string ShortCut { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
 }
 
 public class Lock
 {
-    public string id { get; set; }
-    public string buildingId { get; set; }
-    public string type { get; set; }
-    public string name { get; set; }
-    public string description { get; set; }
-    public string serialNumber { get; set; }
-    public string floor { get; set; }
-    public string roomNumber { get; set; }
+    public string Id { get; set; }
+    public string BuildingId { get; set; }
+    public string Type { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string SerialNumber { get; set; }
+    public string Floor { get; set; }
+    public string RoomNumber { get; set; }
 }
 
 public class Group
 {
-    public string id { get; set; }
-    public string name { get; set; }
-    public string description { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
 }
 
 public class Medium
 {
-    public string id { get; set; }
-    public string groupId { get; set; }
-    public string type { get; set; }
-    public string owner { get; set; }
-    public string description { get; set; }
-    public string serialNumber { get; set; }
+    public string Id { get; set; }
+    public string GroupId { get; set; }
+    public string Type { get; set; }
+    public string Owner { get; set; }
+    public string Description { get; set; }
+    public string SerialNumber { get; set; }
 }
 

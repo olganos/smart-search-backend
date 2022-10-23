@@ -1,10 +1,8 @@
-using Api;
-
 using Core;
 
-using Servises;
+using Data;
 
-using System.Text.Json;
+using Servises;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<DataInitialiser>(sp =>
     new DataInitialiser(builder.Configuration.GetValue<string>("FileSettings:Path")));
+
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 builder.Services.AddControllers();
 

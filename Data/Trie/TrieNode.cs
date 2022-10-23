@@ -1,12 +1,10 @@
-﻿using Core;
+﻿using Core.Entities;
 
-namespace Servises.Trie
+namespace Data.Trie
 {
     public class TrieNode
     {
-        const int NODE_LENGTH = 256;
-
-        public TrieNode[] Children { get; set; }
+        public Dictionary<char, TrieNode> Children { get; set; }
 
         public Dictionary<ISearchableEntity, int> WeightedEntities { get; set; }
 
@@ -14,7 +12,7 @@ namespace Servises.Trie
         {
             WeightedEntities = new Dictionary<ISearchableEntity, int>();
 
-            Children = new TrieNode[NODE_LENGTH];
+            Children = new Dictionary<char, TrieNode>();
         }
     }
 }

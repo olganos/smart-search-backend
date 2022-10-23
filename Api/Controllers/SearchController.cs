@@ -11,24 +11,17 @@ namespace Api.Controllers;
 public class SearchController : ControllerBase
 {
     private readonly ILogger<SearchController> _logger;
-    private readonly DataInitialiser _data;
+    private readonly ISearchService _searchService;
 
-    public SearchController(ILogger<SearchController> logger, DataInitialiser data)
+    public SearchController(ILogger<SearchController> logger, ISearchService searchService)
     {
         _logger = logger;
-        _data = data;
+        _searchService = searchService;
     }
 
     [HttpGet()]
     public IActionResult Get(string searchString)
     {
-        return Ok(_data.WeightedTrie.Search(searchString)
-            .Select(s => new
-            {
-                FullDEscription = s.Key.GetFullDescription(),
-                Weight = s.Value
-            })
-            .OrderByDescending(x => x.Weight)
-        );
+        return Ok(_searchService.Execute(searchString));
     }
 }

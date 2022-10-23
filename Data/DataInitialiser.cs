@@ -1,21 +1,21 @@
 ﻿using Core;
-
-using Servises.Trie;
+using Core.Entities;
+using Data.Trie;
 
 using System.Text.Json;
 
-namespace Servises;
+namespace Data;
 
 public class DataInitialiser
 {
-    public Data? Data { get; }
+    public EntitySet? EntitySet { get; }
 
-    public WeightedTrie? WeightedTrie { get; }
+    public WeightedTrie WeightedTrie { get; }
 
     public DataInitialiser(string dataFilePath)
     {
         string jsonString = File.ReadAllText(dataFilePath);
-        Data = JsonSerializer.Deserialize<Data>(
+        EntitySet = JsonSerializer.Deserialize<EntitySet>(
             jsonString,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
         );
@@ -26,29 +26,29 @@ public class DataInitialiser
 
     private void BuildWeightedTrie()
     {
-        if (Data == null)
+        if (EntitySet == null)
         {
             return;
         }
 
-        if (Data.Buildings.Any())
+        if (EntitySet.Buildings.Any())
         {
-            BuildBuildingsTrie(Data.Buildings);
+            BuildBuildingsTrie(EntitySet.Buildings);
         }
 
-        if (Data.Media.Any())
+        if (EntitySet.Media.Any())
         {
-            BuildMediumsTrie(Data.Media);
+            BuildMediumsTrie(EntitySet.Media);
         }
 
-        if (Data.Locks.Any())
+        if (EntitySet.Locks.Any())
         {
-            BuildLocksTrie(Data.Locks);
+            BuildLocksTrie(EntitySet.Locks);
         }
 
-        if (Data.Groups.Any())
+        if (EntitySet.Groups.Any())
         {
-            BuildGroupsTrie(Data.Groups);
+            BuildGroupsTrie(EntitySet.Groups);
         }
     }
 

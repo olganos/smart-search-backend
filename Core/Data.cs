@@ -10,7 +10,7 @@ public class Data
 
 public class Building
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string ShortCut { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
@@ -25,7 +25,7 @@ public enum BuildingWeight
 
 public class Lock
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string BuildingId { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
@@ -37,14 +37,14 @@ public class Lock
 
 public class Group
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
 }
 
 public class Medium
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string GroupId { get; set; }
     public string Type { get; set; }
     public string Owner { get; set; }

@@ -24,6 +24,11 @@ namespace Servises.Trie
 
         private TrieNode Insert(string text, int weight, int index, ISearchableEntity searchableEntity, TrieNode node)
         {
+            if(string.IsNullOrWhiteSpace(text))
+            {
+                return node;
+            }
+
             int cur = text[index];
 
             if (node.Children[cur] == null)

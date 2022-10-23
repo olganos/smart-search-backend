@@ -1,5 +1,12 @@
 ﻿namespace Core;
 
+public interface ISearchableEntity
+{
+    Guid Id { get; set; }
+
+    string GetFullDescription();
+}
+
 public class Data
 {
     public Building[] Buildings { get; set; }
@@ -8,12 +15,17 @@ public class Data
     public Medium[] Media { get; set; }
 }
 
-public class Building
+public class Building: ISearchableEntity
 {
     public Guid Id { get; set; }
     public string ShortCut { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+
+    public string GetFullDescription()
+    {
+        return $"Bulding: {ShortCut} - {Name} - {Description}";
+    }
 }
 
 public enum BuildingWeight
@@ -23,7 +35,7 @@ public enum BuildingWeight
     Description = 5,
 }
 
-public class Lock
+public class Lock: ISearchableEntity
 {
     public Guid Id { get; set; }
     public string BuildingId { get; set; }
@@ -33,16 +45,26 @@ public class Lock
     public string SerialNumber { get; set; }
     public string Floor { get; set; }
     public string RoomNumber { get; set; }
+
+    public string GetFullDescription()
+    {
+        return $"Lock: {Type} - {Name} - {Description}";
+    }
 }
 
-public class Group
+public class Group: ISearchableEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+
+    public string GetFullDescription()
+    {
+        return $"Group: {Name} - {Description}";
+    }
 }
 
-public class Medium
+public class Medium: ISearchableEntity
 {
     public Guid Id { get; set; }
     public string GroupId { get; set; }
@@ -50,5 +72,10 @@ public class Medium
     public string Owner { get; set; }
     public string Description { get; set; }
     public string SerialNumber { get; set; }
+
+    public string GetFullDescription()
+    {
+        return $"Medium: {Type} - {Owner} - {Description}";
+    }
 }
 

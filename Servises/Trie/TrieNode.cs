@@ -8,11 +8,11 @@ namespace Servises.Trie
 
         public TrieNode[] Children { get; set; }
 
-        public Dictionary<Building, int> WeightedBuildings { get; set; }
+        public Dictionary<ISearchableEntity, int> WeightedEntities { get; set; }
 
         public TrieNode()
         {
-            WeightedBuildings = new Dictionary<Building, int>();
+            WeightedEntities = new Dictionary<ISearchableEntity, int>();
 
             Children = new TrieNode[NODE_LENGTH];
         }

@@ -25,9 +25,7 @@ public class SearchController : ControllerBase
         return Ok(_data.WeightedTrie.Search(searchString)
             .Select(s => new
             {
-                s.Key.ShortCut,
-                s.Key.Name,
-                s.Key.Description,
+                FullDEscription = s.Key.GetFullDescription(),
                 Weight = s.Value
             })
             .OrderByDescending(x => x.Weight)

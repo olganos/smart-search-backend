@@ -12,17 +12,17 @@ namespace Servises.Trie
             Root = new TrieNode();
         }
 
-        public TrieNode Insert(string text, int weight, int index, Building building)
+        public TrieNode Insert(string text, int weight, int index, ISearchableEntity searchableEntity)
         {
-            return Insert(text, weight, index, building, Root);
+            return Insert(text, weight, index, searchableEntity, Root);
         }
 
-        public Dictionary<Building, int>? Search(string prefix)
+        public Dictionary<ISearchableEntity, int>? Search(string prefix)
         {
             return Search(prefix, Root);
         }
 
-        private TrieNode Insert(string text, int weight, int index, Building building, TrieNode node)
+        private TrieNode Insert(string text, int weight, int index, ISearchableEntity searchableEntity, TrieNode node)
         {
             int cur = text[index];
 
@@ -31,24 +31,24 @@ namespace Servises.Trie
                 node.Children[cur] = new TrieNode();
             }
 
-            if (node.WeightedBuildings.ContainsKey(building))
+            if (node.WeightedEntities.ContainsKey(searchableEntity))
             {
-                node.WeightedBuildings[building] = Math.Max(node.WeightedBuildings[building], weight);
+                node.WeightedEntities[searchableEntity] = Math.Max(node.WeightedEntities[searchableEntity], weight);
             }
             else
             {
-                node.WeightedBuildings[building] = weight;
+                node.WeightedEntities[searchableEntity] = weight;
             }
 
             if (index + 1 != text.Length)
             {
-                node.Children[cur] = Insert(text, weight, index + 1, building, node.Children[cur]);
+                node.Children[cur] = Insert(text, weight, index + 1, searchableEntity, node.Children[cur]);
             }
 
             return node;
         }
 
-        private Dictionary<Building, int>? Search(string prefix, TrieNode root)
+        private Dictionary<ISearchableEntity, int>? Search(string prefix, TrieNode root)
         {
             int index = 0;
             TrieNode? answer = null;
@@ -67,7 +67,7 @@ namespace Servises.Trie
                 ++index;
             }
 
-            return answer?.WeightedBuildings;
+            return answer?.WeightedEntities;
         }
     }
 }

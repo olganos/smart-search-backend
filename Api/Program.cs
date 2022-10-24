@@ -1,16 +1,17 @@
 using Core;
 
 using Data;
-
+using Data.Abstraction;
 using Servises;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<DataInitialiser>(sp =>
-    new DataInitialiser(builder.Configuration.GetValue<string>("FileSettings:Path")));
+builder.Services.AddSingleton<IDataInitialiser>(sp =>
+    new FileDataInitialiser(builder.Configuration.GetValue<string>("FileSettings:Path")));
 
+builder.Services.AddSingleton<WeightedTrieBuilder>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 
 builder.Services.AddControllers();

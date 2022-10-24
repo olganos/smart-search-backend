@@ -1,6 +1,6 @@
 ﻿namespace Core;
 
-public enum ExactMatchWeight
+public enum ExactMatchRatio
 {
     Value = 10,
 }

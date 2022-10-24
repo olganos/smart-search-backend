@@ -11,9 +11,9 @@ public class SearchService : ISearchService
 {
     private readonly WeightedTrie _weightedTrie;
 
-    public SearchService(DataInitialiser dataInitialiser)
+    public SearchService(WeightedTrieBuilder weightedTreeBuilder)
     {
-        _weightedTrie = dataInitialiser.WeightedTrie;
+        _weightedTrie = weightedTreeBuilder.WeightedTrie;
     }
 
     public IEnumerable<GeneralizedSearchableEntity> Execute(string searchString)

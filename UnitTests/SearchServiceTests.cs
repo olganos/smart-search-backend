@@ -2,6 +2,7 @@ using Core.Entities;
 
 using Data;
 using Data.Abstraction;
+
 using Moq;
 
 using Servises;
@@ -307,9 +308,137 @@ namespace UnitTests
         }
 
         [Test]
-        public void Execute_NestedObjects_ShowByWeights()
+        public void Execute_NestedObjectsLocks_ShowByWeights()
         {
-            Assert.Fail();
+            var buildingId = Guid.NewGuid();
+
+            var mock = new Mock<IDataInitialiser>();
+            mock.Setup(initialiser => initialiser.EntitySet).Returns(
+                new EntitySet
+                {
+                    Buildings = new Building[]
+                    {
+                        new Building {
+                            Id = buildingId,
+                            ShortCut = "HOFF",
+                            Name = "Head Office", // 9
+                            Description = "Head Office, Feringastraße 4, 85774 Unterföhring"
+                        },
+                    },
+                    Locks = new Lock[]
+                    {
+                        new Lock {
+                            Id = Guid.NewGuid(),
+                            BuildingId = buildingId, // 8
+                            Type = "Cylinder",
+                            Name = "WC Herren 3.OG süd",
+                            Floor= "3.OG",
+                            RoomNumber = "340"
+                        },
+                        new Lock {
+                            Id = Guid.NewGuid(),
+                            BuildingId = buildingId,
+                            Type = "Cylinder",
+                            Name = "Head Herren 3.OG süd", // 10
+                            Floor= "3.OG",
+                            RoomNumber = "340"
+                        },
+                        new Lock {
+                            Id = Guid.NewGuid(),
+                            Floor= "3.OG",
+                            RoomNumber = "340"
+                        },
+                    }
+                });
+
+            var weightedTrieBuilder = new WeightedTrieBuilder(mock.Object);
+            var searchService = new SearchService(weightedTrieBuilder);
+
+            var searchString = "Head";
+            var result = searchService.Execute(searchString);
+
+            Assert.That(result.Count(), Is.EqualTo(3));
+            Assert.That(result.First().Weight, Is.EqualTo(10));
+            Assert.That(result.Skip(1).First().Weight, Is.EqualTo(9));
+            Assert.That(result.Last().Weight, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void Execute_NestedObjectsMedia_ShowByWeights()
+        {
+            var groupId = Guid.NewGuid();
+
+            var mock = new Mock<IDataInitialiser>();
+            mock.Setup(initialiser => initialiser.EntitySet).Returns(
+                new EntitySet
+                {
+                    Media = new Medium[]
+                    {
+                        new Medium {
+                            Id = Guid.NewGuid(),
+                            GroupId = groupId, // name = 8
+                            Type = "Card",
+                            SerialNumber = "UID-378D17F6"
+                        },
+                    },
+                    Groups = new Group[]
+                    {
+                        new Group {
+                            Id = groupId,
+                            Name = "Buchhaltung", // 9
+                            Description = "Hardware"
+                        },
+                    }
+                });
+
+            var weightedTrieBuilder = new WeightedTrieBuilder(mock.Object);
+            var searchService = new SearchService(weightedTrieBuilder);
+
+            var searchString = "buch";
+            var result = searchService.Execute(searchString);
+
+            Assert.That(result.Count(), Is.EqualTo(2));
+            Assert.That(result.First().Weight, Is.EqualTo(9));
+            Assert.That(result.Last().Weight, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void Execute_NestedObjectsMediaExactMatch_ShowByWeights()
+        {
+            var groupId = Guid.NewGuid();
+
+            var mock = new Mock<IDataInitialiser>();
+            mock.Setup(initialiser => initialiser.EntitySet).Returns(
+                new EntitySet
+                {
+                    Media = new Medium[]
+                    {
+                        new Medium {
+                            Id = Guid.NewGuid(),
+                            GroupId = groupId, // name = 8 * 10
+                            Type = "Card",
+                            SerialNumber = "UID-378D17F6"
+                        },
+                    },
+                    Groups = new Group[]
+                    {
+                        new Group {
+                            Id = groupId,
+                            Name = "Buchhaltung", // 9 * 10
+                            Description = "Hardware"
+                        },
+                    }
+                });
+
+            var weightedTrieBuilder = new WeightedTrieBuilder(mock.Object);
+            var searchService = new SearchService(weightedTrieBuilder);
+
+            var searchString = "Buchhaltung";
+            var result = searchService.Execute(searchString);
+
+            Assert.That(result.Count(), Is.EqualTo(2));
+            Assert.That(result.First().Weight, Is.EqualTo(90));
+            Assert.That(result.Last().Weight, Is.EqualTo(80));
         }
     }
 }

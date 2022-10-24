@@ -3,7 +3,7 @@
 public class Lock : ISearchableEntity
 {
     public Guid Id { get; set; }
-    public string BuildingId { get; set; }
+    public Guid BuildingId { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
@@ -11,9 +11,11 @@ public class Lock : ISearchableEntity
     public string Floor { get; set; }
     public string RoomNumber { get; set; }
 
+    public Building Building { get; set; }
+
     public string GetFullDescription()
     {
-        return $"Lock: {Type} - {Name} - {Description} - {SerialNumber} - {Floor} - {RoomNumber}";
+        return $"Lock: {Type} - {Name} - {Description} - {SerialNumber} - {Floor} - {RoomNumber} - {Building?.GetFullDescription()}";
     }
 }
 

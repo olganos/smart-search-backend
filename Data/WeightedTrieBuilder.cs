@@ -15,10 +15,58 @@ namespace Data
             _entitySet = dataInitialiser.EntitySet;
 
             WeightedTrie = new WeightedTrie();
+            ConnectLinkedEntities();
             BuildWeightedTrie();
         }
 
         private readonly EntitySet? _entitySet;
+
+        private void ConnectLinkedEntities()
+        {
+            if (_entitySet == null)
+            {
+                return;
+            }
+
+            ConnectLocksWithBuildings();
+            ConnectMediaWithGroups();
+        }
+
+        private void ConnectLocksWithBuildings()
+        {
+            if (_entitySet?.Locks == null || _entitySet?.Buildings == null)
+            {
+                return;
+            }
+
+            var buildings = new Dictionary<Guid, Building>(_entitySet.Buildings.Select(x => new KeyValuePair<Guid, Building>(x.Id, x)));
+
+            foreach (var item in _entitySet.Locks)
+            {
+                if (buildings.ContainsKey(item.BuildingId))
+                {
+                    item.Building = buildings[item.BuildingId];
+                }
+            }
+        }
+
+        private void ConnectMediaWithGroups()
+        {
+            if (_entitySet?.Media == null || _entitySet?.Groups == null)
+            {
+                return;
+            }
+
+            var groups = new Dictionary<Guid, Group>(_entitySet.Groups.Select(x => new KeyValuePair<Guid, Group>(x.Id, x)));
+
+            foreach (var item in _entitySet.Media)
+            {
+                if (groups.ContainsKey(item.GroupId))
+                {
+                    item.Group = groups[item.GroupId];
+                }
+            }
+        }
 
         private void BuildWeightedTrie()
         {
@@ -66,6 +114,7 @@ namespace Data
                 WeightedTrie.Insert(mediums[i].Owner, (int)MediumWeight.Owner, 0, mediums[i]);
                 WeightedTrie.Insert(mediums[i].SerialNumber, (int)MediumWeight.SerialNumber, 0, mediums[i]);
                 WeightedTrie.Insert(mediums[i].Description, (int)MediumWeight.Description, 0, mediums[i]);
+                WeightedTrie.Insert(mediums[i].Group?.Name, (int)MediumWeight.GroupName, 0, mediums[i]);
             }
         }
 
@@ -78,7 +127,9 @@ namespace Data
                 WeightedTrie.Insert(locks[i].SerialNumber, (int)LockWeight.SerialNumber, 0, locks[i]);
                 WeightedTrie.Insert(locks[i].Floor, (int)LockWeight.Floor, 0, locks[i]);
                 WeightedTrie.Insert(locks[i].RoomNumber, (int)LockWeight.RoomNumber, 0, locks[i]);
-                WeightedTrie.Insert(locks[i].Description, (int)MediumWeight.Description, 0, locks[i]);
+                WeightedTrie.Insert(locks[i].Description, (int)LockWeight.Description, 0, locks[i]);
+                WeightedTrie.Insert(locks[i].Building?.ShortCut, (int)LockWeight.BuildingShortcut, 0, locks[i]);
+                WeightedTrie.Insert(locks[i].Building?.Name, (int)LockWeight.BuildingName, 0, locks[i]);
             }
         }
 

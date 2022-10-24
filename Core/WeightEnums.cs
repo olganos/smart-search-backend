@@ -20,6 +20,8 @@ public enum LockWeight
     Floor = 6,
     RoomNumber = 6,
     Description = 6,
+    BuildingName = 8,
+    BuildingShortcut = 5
 }
 
 public enum GroupWeight
@@ -34,4 +36,5 @@ public enum MediumWeight
     Owner = 10,
     SerialNumber = 8,
     Description = 6,
+    GroupName = 8
 }

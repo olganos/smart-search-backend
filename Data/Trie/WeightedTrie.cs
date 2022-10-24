@@ -14,7 +14,7 @@ public class WeightedTrie
 
     public TrieNode Insert(string text, int weight, int index, ISearchableEntity searchableEntity)
     {
-        return Insert(text, weight, index, searchableEntity, Root);
+        return Insert(UnifyString(text), weight, index, searchableEntity, Root);
     }
 
     public Dictionary<ISearchableEntity, int>? Search(string prefix)
@@ -56,16 +56,17 @@ public class WeightedTrie
         return node;
     }
 
-    private Dictionary<ISearchableEntity, int> Search(string prefix, TrieNode root)
+    private Dictionary<ISearchableEntity, int> Search(string searchString, TrieNode root)
     {
         int index = 0;
         TrieNode? answer = null;
-        int n = prefix.Length;
+        searchString = UnifyString(searchString);
+        int n = searchString.Length;
 
         // Searching the prefix in TRie.
         while (index < n)
         {
-            var cur = prefix[index];
+            var cur = searchString[index];
 
             if (!root.Children.ContainsKey(cur))
                 return new Dictionary<ISearchableEntity, int>();
@@ -76,5 +77,10 @@ public class WeightedTrie
         }
 
         return answer?.WeightedEntities ?? new Dictionary<ISearchableEntity, int>();
+    }
+
+    private string UnifyString(string source)
+    {
+        return source?.ToLower() ?? string.Empty;
     }
 }

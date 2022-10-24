@@ -70,7 +70,7 @@ public class WeightedTrie
             if (!root.Children.ContainsKey(cur))
                 return new Dictionary<ISearchableEntity, int>();
 
-            answer = root.Children[cur];
+            answer = root;
             root = root.Children[cur];
             index++;
         }

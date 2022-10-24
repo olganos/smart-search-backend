@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Entities;
+
 using Data.Trie;
 
 using System.Text.Json;
@@ -8,14 +9,12 @@ namespace Data;
 
 public class DataInitialiser
 {
-    public EntitySet? EntitySet { get; }
-
     public WeightedTrie WeightedTrie { get; }
 
     public DataInitialiser(string dataFilePath)
     {
         string jsonString = File.ReadAllText(dataFilePath);
-        EntitySet = JsonSerializer.Deserialize<EntitySet>(
+        _entitySet = JsonSerializer.Deserialize<EntitySet>(
             jsonString,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
         );
@@ -24,31 +23,33 @@ public class DataInitialiser
         BuildWeightedTrie();
     }
 
+    private readonly EntitySet? _entitySet;
+
     private void BuildWeightedTrie()
     {
-        if (EntitySet == null)
+        if (_entitySet == null)
         {
             return;
         }
 
-        if (EntitySet.Buildings.Any())
+        if (_entitySet.Buildings != null && _entitySet.Buildings.Any())
         {
-            BuildBuildingsTrie(EntitySet.Buildings);
+            BuildBuildingsTrie(_entitySet.Buildings);
         }
 
-        if (EntitySet.Media.Any())
+        if (_entitySet.Media != null && _entitySet.Media.Any())
         {
-            BuildMediumsTrie(EntitySet.Media);
+            BuildMediumsTrie(_entitySet.Media);
         }
 
-        if (EntitySet.Locks.Any())
+        if (_entitySet.Locks != null && _entitySet.Locks.Any())
         {
-            BuildLocksTrie(EntitySet.Locks);
+            BuildLocksTrie(_entitySet.Locks);
         }
 
-        if (EntitySet.Groups.Any())
+        if (_entitySet.Groups != null && _entitySet.Groups.Any())
         {
-            BuildGroupsTrie(EntitySet.Groups);
+            BuildGroupsTrie(_entitySet.Groups);
         }
     }
 

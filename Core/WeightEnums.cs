@@ -1,5 +1,10 @@
 ﻿namespace Core;
 
+public enum ExactMatchWeight
+{
+    Value = 10,
+}
+
 public enum BuildingWeight
 {
     ShortCut = 7,

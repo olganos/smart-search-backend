@@ -1,12 +1,11 @@
-﻿using Core.Entities;
+﻿using Core;
+using Core.Entities;
 
 namespace Data.Trie;
 
 public class WeightedTrie
 {
     public TrieNode Root { get; }
-
-    private readonly int EXACT_MATCH_WEIGHT = 10;
 
     public WeightedTrie()
     {
@@ -42,11 +41,11 @@ public class WeightedTrie
         if (node.WeightedEntities.ContainsKey(searchableEntity))
         {
             var maxWeight = Math.Max(node.WeightedEntities[searchableEntity], weight);
-            node.WeightedEntities[searchableEntity] = lastIndex ? maxWeight + EXACT_MATCH_WEIGHT : maxWeight;
+            node.WeightedEntities[searchableEntity] = lastIndex ? maxWeight + (int)ExactMatchWeight.Value : maxWeight;
         }
         else
         {
-            node.WeightedEntities[searchableEntity] = lastIndex ? weight + EXACT_MATCH_WEIGHT : weight;
+            node.WeightedEntities[searchableEntity] = lastIndex ? weight + (int)ExactMatchWeight.Value : weight;
         }
 
         if (!lastIndex)

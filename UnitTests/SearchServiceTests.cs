@@ -162,6 +162,19 @@ namespace UnitTests
             Assert.That(result.Count(), Is.EqualTo(1));
             // Name's weight is more than description, but in description is full match
             Assert.That(result.First().Weight, Is.EqualTo(50));
+
+            // If not exact match, the weight should be from the more weighted field (name)
+            searchString = "Head Offic";
+            result = searchService.Execute(searchString);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.First().Weight, Is.EqualTo(9));
+
+            searchString = "Head Office,";
+            result = searchService.Execute(searchString);
+
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.First().Weight, Is.EqualTo(9));
         }
 
         [Test]

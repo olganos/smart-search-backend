@@ -41,7 +41,7 @@ public class WeightedTrie
         if (node.WeightedEntities.ContainsKey(searchableEntity))
         {
             var maxWeight = Math.Max(node.WeightedEntities[searchableEntity], weight);
-            node.WeightedEntities[searchableEntity] = lastIndex ? maxWeight * (int)ExactMatchRatio.Value : maxWeight;
+            node.WeightedEntities[searchableEntity] = lastIndex ? weight * (int)ExactMatchRatio.Value : maxWeight;
         }
         else
         {

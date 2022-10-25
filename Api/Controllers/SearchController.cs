@@ -19,7 +19,7 @@ public class SearchController : ControllerBase
         _searchService = searchService;
     }
 
-    [HttpGet()]
+    [HttpGet("{searchString}")]
     public IActionResult Get(string searchString)
     {
         return Ok(_searchService.Execute(searchString));

@@ -7,9 +7,13 @@ public class Building : ISearchableEntity
     public string Name { get; set; }
     public string Description { get; set; }
 
-    public string GetFullDescription()
+    public string[] Fields => new[]
     {
-        return $"Bulding: {ShortCut} - {Name} - {Description}";
-    }
+        $"ShortCat: {ShortCut}",
+        $"Name: {Name}",
+        $"Description: {Description}",
+    };
+
+    public string EntityType => "Building";
 }
 

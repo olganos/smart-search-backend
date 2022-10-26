@@ -3,8 +3,6 @@
 using Data;
 using Data.Trie;
 
-using System.Xml.Linq;
-
 namespace Servises;
 
 public class SearchService : ISearchService
@@ -23,7 +21,8 @@ public class SearchService : ISearchService
             .Select(x => new GeneralizedSearchableEntity
             {
                 Id = x.Key.Id,
-                FullDescription = x.Key.GetFullDescription(),
+                Type = x.Key.EntityType,
+                Fields = x.Key.Fields,
                 Weight = x.Value
             });
     }

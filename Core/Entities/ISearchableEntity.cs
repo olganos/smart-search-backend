@@ -4,6 +4,8 @@ public interface ISearchableEntity
 {
     Guid Id { get; set; }
 
-    string GetFullDescription();
+    string EntityType { get; }
+
+    string[] Fields { get; }
 }
 

@@ -11,9 +11,16 @@ public class Medium : ISearchableEntity
 
     public Group Group { get; set; }
 
-    public string GetFullDescription()
+    public string[] Fields => new[]
     {
-        return $"Medium: {Type} - {Owner} - {Description} - {SerialNumber} - {Group?.GetFullDescription()}";
-    }
+        $"Type: {Type}",
+        $"Owner: {Owner}",
+        $"Description: {Description}",
+        $"SerialNumber: {SerialNumber}",
+        $"Group Name: {Group?.Name}",
+        $"Group Description: {Group?.Description}",
+    };
+
+    public string EntityType => "Medium";
 }
 

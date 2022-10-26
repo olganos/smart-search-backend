@@ -13,9 +13,19 @@ public class Lock : ISearchableEntity
 
     public Building Building { get; set; }
 
-    public string GetFullDescription()
+    public string[] Fields => new[]
     {
-        return $"Lock: {Type} - {Name} - {Description} - {SerialNumber} - {Floor} - {RoomNumber} - {Building?.GetFullDescription()}";
-    }
+        $"Type: {Type}",
+        $"Name: {Name}",
+        $"Description: {Description}",
+        $"SerialNumber: {SerialNumber}",
+        $"Floor: {Floor}",
+        $"RoomNumber: {RoomNumber}",
+        $"Building ShortCat: {Building?.ShortCut}",
+        $"Building Name: {Building?.Name}",
+        $"Building Description: {Building?.Description}",
+    };
+
+    public string EntityType => "Lock";
 }
 

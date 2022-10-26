@@ -6,9 +6,12 @@ public class Group : ISearchableEntity
     public string Name { get; set; }
     public string Description { get; set; }
 
-    public string GetFullDescription()
+    public string[] Fields => new[]
     {
-        return $"Group: {Name} - {Description}";
-    }
+        $"Name: {Name}",
+        $"Description: {Description}",
+    };
+
+    public string EntityType => "Group";
 }
 
